@@ -1,0 +1,24 @@
+# permissions for end users to edit gamesessions.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gamesession-editor-role
+rules:
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - gamesessions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - gamesessions/status
+  verbs:
+  - get

@@ -5,4 +5,12 @@ plugins:
   manifests.sdk.operatorframework.io/v2: {}
   scorecard.sdk.operatorframework.io/v2: {}
 projectName: kube-game-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kube-game.shiftweek.poc
+  group: gamesession
+  kind: GameSession
+  version: v1alpha1
 version: "3"

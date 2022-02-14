@@ -37,4 +37,21 @@ rules:
       - patch
       - update
       - watch
+  ##
+  ## Rules for gamesession.kube-game.shiftweek.poc/v1alpha1, Kind: GameSession
+  ##
+  - apiGroups:
+      - gamesession.kube-game.shiftweek.poc
+    resources:
+      - gamesessions
+      - gamesessions/status
+      - gamesessions/finalizers
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
 #+kubebuilder:scaffold:rules
