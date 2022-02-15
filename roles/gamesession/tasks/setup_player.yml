@@ -1,0 +1,107 @@
+---
+- name: Create {{ player_name }} namespace
+  kubernetes.core.k8s:
+    definition:
+      kind: Namespace
+      apiVersion: v1
+      metadata:
+        name: '{{ ansible_operator_meta.name }}-{{ player_name }}'
+      annotations:
+        gamesession: '{{ ansible_operator_meta.name }}'
+
+- name: Create bind role for {{ player_name }}
+  kubernetes.core.k8s:
+    definition:
+      kind: RoleBinding
+      metadata:
+        name: role-binding-gamesession
+        namespace: '{{ ansible_operator_meta.name }}-{{ player_name }}'
+      subjects:
+        - kind: User
+          name: '{{ player_name }}'
+          apiGroup: rbac.authorization.k8s.io
+      roleRef:
+        kind: ClusterRole
+        name: gamesession-viewer-role
+        apiGroup: rbac.authorization.k8s.io
+
+- name: Create bind role for {{ player_name }}
+  kubernetes.core.k8s:
+    definition:
+      kind: RoleBinding
+      metadata:
+        name: role-binding-playermove
+        namespace: '{{ ansible_operator_meta.name }}-{{ player_name }}'
+      subjects:
+        - kind: User
+          name: '{{ player_name }}'
+          apiGroup: rbac.authorization.k8s.io
+      roleRef:
+        kind: ClusterRole
+        name: playermove-viewer-role
+        apiGroup: rbac.authorization.k8s.io
+
+- name: Create temporary directory to store {{ player_name }} credentials
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: key
+  register: tempdir
+
+- name: Generate an OpenSSL private key for {{ player_name }}
+  community.crypto.openssl_privatekey:
+    path: "{{ tempdir.path }}/{{ player_name }}.key"
+    size: 2048
+
+- name: Generate an OpenSSL Certificate Signing Request {{ player_name }}
+  community.crypto.openssl_csr:
+    path: "{{ tempdir.path }}/{{ player_name }}.csr"
+    privatekey_path: "{{ tempdir.path }}/{{ player_name }}.key"
+    common_name: '{{ player_name }}'
+    organization_name: players
+
+- name: Read OpenSSL Certificate Signing Request for {{ player_name }}
+  shell: cat "{{ tempdir.path }}/{{ player_name }}.csr"
+  register: player_csr
+
+- name: Create a CertificateSigningRequest for {{ player_name }}
+  kubernetes.core.k8s:
+    definition:
+      kind: CertificateSigningRequest
+      apiVersion: certificates.k8s.io/v1
+      metadata:
+        name: '{{ player_name }}'
+        namespace: '{{ ansible_operator_meta.name }}-{{ player_name }}'
+      spec:
+        request: '{{ player_csr.stdout | b64encode }}'
+        signerName: kubernetes.io/kube-apiserver-client
+        expirationSeconds: 86400
+        usages:
+        - client auth
+
+- name: Approve CertificateSigningRequest for {{ player_name }}
+  shell: kubectl certificate approve '{{ player_name }}' -n '{{ ansible_operator_meta.name }}-{{ player_name }}'
+
+- name: Retrieve {{ player_name }} certificate
+  shell: kubectl get csr "{{ player_name }}" -o jsonpath='{.status.certificate}'
+  register: player_crt
+
+- name: Read {{ player_name }} key
+  shell: cat "{{ tempdir.path }}/{{ player_name }}.key"
+  register: player_key
+
+- name: Render {{ player_name }} kubeconfig
+  set_fact:
+    kubeconfig: '{{ lookup("template", "kubeconfig.j2") }}'
+
+- name: Store {{ player_name }} kubeconfig in GameSession/{{ ansible_operator_meta.name }} status
+  operator_sdk.util.k8s_status:
+    api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+    kind: GameSession
+    name: "{{ ansible_operator_meta.name }}"
+    namespace: "{{ ansible_operator_meta.namespace }}"
+    status: '{ "{{ player_name }}-kubeconfig": {{ kubeconfig | to_json }} }'
+
+- name: Cleanup temporary directory
+  ansible.builtin.file:
+    path: '{{ tempdir.path }}'
+    state: absent
