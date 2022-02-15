@@ -13,4 +13,11 @@ resources:
   group: gamesession
   kind: GameSession
   version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kube-game.shiftweek.poc
+  group: gamesession
+  kind: PlayerMove
+  version: v1alpha1
 version: "3"

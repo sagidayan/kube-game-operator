@@ -1,0 +1,20 @@
+# permissions for end users to view playermoves.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: playermove-viewer-role
+rules:
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - playermoves
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - playermoves/status
+  verbs:
+  - get

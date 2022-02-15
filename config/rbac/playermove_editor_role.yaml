@@ -1,0 +1,24 @@
+# permissions for end users to edit playermoves.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: playermove-editor-role
+rules:
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - playermoves
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - playermoves/status
+  verbs:
+  - get

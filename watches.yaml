@@ -4,4 +4,8 @@
   group: gamesession.kube-game.shiftweek.poc
   kind: GameSession
   role: gamesession
+- version: v1alpha1
+  group: gamesession.kube-game.shiftweek.poc
+  kind: PlayerMove
+  role: playermove
 #+kubebuilder:scaffold:watch

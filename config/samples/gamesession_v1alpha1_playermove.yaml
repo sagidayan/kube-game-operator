@@ -1,0 +1,9 @@
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: PlayerMove
+metadata:
+  name: playermove-sample
+spec:
+  play:
+    - CardDragon
+    - CardHealPotion
+  # TODO(user): Add fields here

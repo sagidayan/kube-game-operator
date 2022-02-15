@@ -54,4 +54,21 @@ rules:
       - patch
       - update
       - watch
+  ##
+  ## Rules for gamesession.kube-game.shiftweek.poc/v1alpha1, Kind: PlayerMove
+  ##
+  - apiGroups:
+      - gamesession.kube-game.shiftweek.poc
+    resources:
+      - playermoves
+      - playermoves/status
+      - playermoves/finalizers
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
 #+kubebuilder:scaffold:rules
