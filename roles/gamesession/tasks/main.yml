@@ -1,2 +1,7 @@
 ---
 # tasks file for GameSession
+- name: Create player
+  include_tasks: setup_player.yml
+  loop: "{{ player_names }}"
+  loop_control:
+    loop_var: player_name

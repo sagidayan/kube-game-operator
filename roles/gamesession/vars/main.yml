@@ -1,2 +1,4 @@
 ---
-# vars file for GameSession
+player_names:
+- "player-one"
+- "player-two"
