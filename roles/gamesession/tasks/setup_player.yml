@@ -6,8 +6,8 @@
       apiVersion: v1
       metadata:
         name: '{{ ansible_operator_meta.name }}-{{ player_name }}'
-      annotations:
-        gamesession: '{{ ansible_operator_meta.name }}'
+        annotations:
+          gamesession: '{{ ansible_operator_meta.name }}'
 
 - name: Create bind role for {{ player_name }}
   kubernetes.core.k8s:
