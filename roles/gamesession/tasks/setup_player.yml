@@ -123,3 +123,8 @@
   ansible.builtin.file:
     path: '{{ tempdir.path }}'
     state: absent
+
+- name: Create deck for {{ player_full_name }}
+  kubernetes.core.k8s:
+    src: deck.yml
+    namespace: '{{ player_full_name }}'

@@ -1,0 +1,98 @@
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: tata
+spec:
+  display_name: tata
+  cost: 1
+  value: 1
+  class: Attack
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: toto
+spec:
+  display_name: toto
+  cost: 1
+  value: 2
+  class: Attack
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: titi
+spec:
+  display_name: titi
+  cost: 2
+  value: 1
+  class: Attack
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: tutu
+spec:
+  display_name: tutu
+  cost: 2
+  value: 2
+  class: Attack
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: tete
+spec:
+  display_name: tete
+  cost: 2
+  value: 3
+  class: Attack
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: crashloopbackoff
+spec:
+  display_name: CrashLoopBackOff
+  cost: 3
+  value: 1
+  class: Attack
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: kubefoo
+spec:
+  display_name: KubeFoo
+  cost: 3
+  value: 2
+  class: Attack
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: kubebar
+spec:
+  display_name: KubeBar
+  cost: 3
+  value: 3
+  class: Armor
+  image_url: http://www.example.com/image.png
+---
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: luckyshiftweek
+spec:
+  display_name: LuckyShiftWeek
+  cost: 0
+  value: 10
+  class: Heal
+  image_url: http://www.example.com/image.png
