@@ -17,6 +17,7 @@
   kubernetes.core.k8s:
     definition:
       kind: RoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
       metadata:
         name: role-binding-gamesession
         namespace: '{{ player_full_name }}'
@@ -29,12 +30,27 @@
         name: gamesession-viewer-role
         apiGroup: rbac.authorization.k8s.io
 
-- name: Create bind role for {{ player_full_name }}
+- name: Create bind playermove editor role for {{ player_full_name }}
   kubernetes.core.k8s:
     definition:
       kind: RoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
       metadata:
-        name: role-binding-playermove
+        name: role-binding-playermove-editor
+        namespace: '{{ player_full_name }}'
+      subjects:
+      roleRef:
+        kind: ClusterRole
+        name: playermove-editor-role
+        apiGroup: rbac.authorization.k8s.io
+
+- name: Create bind playermove viewer role for {{ player_full_name }}
+  kubernetes.core.k8s:
+    definition:
+      kind: RoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: role-binding-playermove-viewer
         namespace: '{{ player_full_name }}'
       subjects:
         - kind: User

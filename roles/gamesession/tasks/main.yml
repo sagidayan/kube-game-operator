@@ -15,3 +15,6 @@
     status:
       isSetup: true
   when: not _gamesession_kube_game_shiftweek_poc_gamesession.status.isSetup
+
+- name: Switch player turn
+  include_tasks: player_turn.yml

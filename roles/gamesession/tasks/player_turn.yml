@@ -1,0 +1,43 @@
+- name: Get player's turn
+  set_fact:
+    active_player: '{{ _gamesession_kube_game_shiftweek_poc_gamesession.status.activePlayer | default("p1") }}'
+
+- name: Determine who is inactive
+  set_fact:
+    inactive_player: '{{ item }}' # '{{ [active_player] | difference(player_names) | first }}' would be better but did not managed to make it work
+  when: item != active_player
+  loop: "{{ player_names }}"
+
+- debug:
+    msg: "active: {{ active_player }} inactive: {{ inactive_player }}"
+
+- name: Deny the inactive player to edit PlayerMove objects
+  kubernetes.core.k8s:
+    definition:
+      kind: RoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: role-binding-playermove-editor
+        namespace: '{{ ansible_operator_meta.name }}-{{ inactive_player }}'
+      subjects:
+      roleRef:
+        kind: ClusterRole
+        name: playermove-editor-role
+        apiGroup: rbac.authorization.k8s.io
+
+- name: Allow active player to edit PlayerMove objects
+  kubernetes.core.k8s:
+    definition:
+      kind: RoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: role-binding-playermove-editor
+        namespace: '{{ ansible_operator_meta.name }}-{{ active_player }}'
+      subjects:
+        - kind: User
+          name: '{{ ansible_operator_meta.name }}-{{ active_player }}'
+          apiGroup: rbac.authorization.k8s.io
+      roleRef:
+        kind: ClusterRole
+        name: playermove-editor-role
+        apiGroup: rbac.authorization.k8s.io
