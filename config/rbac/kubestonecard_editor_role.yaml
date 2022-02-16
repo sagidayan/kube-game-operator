@@ -1,0 +1,24 @@
+# permissions for end users to edit kubestonecards.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubestonecard-editor-role
+rules:
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - kubestonecards
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gamesession.kube-game.shiftweek.poc
+  resources:
+  - kubestonecards/status
+  verbs:
+  - get

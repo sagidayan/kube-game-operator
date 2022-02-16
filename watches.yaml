@@ -8,4 +8,8 @@
   group: gamesession.kube-game.shiftweek.poc
   kind: PlayerMove
   role: playermove
+- version: v1alpha1
+  group: gamesession.kube-game.shiftweek.poc
+  kind: KubeStoneCard
+  role: kubestonecard
 #+kubebuilder:scaffold:watch

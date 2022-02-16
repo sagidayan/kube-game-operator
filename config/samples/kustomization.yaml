@@ -2,4 +2,5 @@
 resources:
 - gamesession_v1alpha1_gamesession.yaml
 - gamesession_v1alpha1_playermove.yaml
+- gamesession_v1alpha1_kubestonecard.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples

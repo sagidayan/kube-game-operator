@@ -1,0 +1,6 @@
+apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
+kind: KubeStoneCard
+metadata:
+  name: kubestonecard-sample
+spec:
+  # TODO(user): Add fields here

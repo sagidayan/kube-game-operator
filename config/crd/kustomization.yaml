@@ -4,4 +4,5 @@
 resources:
 - bases/gamesession.kube-game.shiftweek.poc_gamesessions.yaml
 - bases/gamesession.kube-game.shiftweek.poc_playermoves.yaml
+- bases/gamesession.kube-game.shiftweek.poc_kubestonecards.yaml
 #+kubebuilder:scaffold:crdkustomizeresource

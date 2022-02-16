@@ -8,9 +8,10 @@
     namespace: "{{ ansible_operator_meta.namespace }}"
   register: current
 
-- name: Set fact move_state
+- name: Set fact move_state and current_player
   ansible.builtin.set_fact: 
     move_state: "{{ current.result.status.state }}"
+    current_player: "{{ ansible_operator_meta.namespace[-2:] }}"
 
 - name: Reconcile Pending Move
   when: move_state == "pending"
@@ -41,11 +42,6 @@
       name: "{{ namespace_metadata.annotations.gamesession }}"
       namespace: "{{ lobby_namespace }}"
     register: gamesession
-
-
-  - name: player that is making the move
-    ansible.builtin.set_fact:
-      current_player: "{{ ansible_operator_meta.namespace[-2:] }}"
 
   - name: "Fail if this is not {{ current_player }}'s move"
     fail:
