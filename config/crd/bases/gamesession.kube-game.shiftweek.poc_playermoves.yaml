@@ -48,6 +48,7 @@ spec:
                   - pending
                   - invalid
                   - processed
+                default: pending
             x-kubernetes-preserve-unknown-fields: true
         type: object
     served: true

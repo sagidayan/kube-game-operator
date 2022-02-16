@@ -1,2 +1,62 @@
 ---
+# https://docs.openshift.com/container-platform/4.7/operators/operator_sdk/ansible/osdk-ansible-cr-status.html
+- name: fetch current move resource
+  operator_sdk.util.k8s_status:
+    api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+    kind: PlayerMove
+    name: "{{ ansible_operator_meta.name }}"
+    namespace: "{{ ansible_operator_meta.namespace }}"
+  register: current
+
+- name: Set fact move_state
+  ansible.builtin.set_fact: 
+    move_state: "{{ current.result.status.state }}"
+
+- name: Reconcile Pending Move
+  when: move_state == "pending"
+  block:
+  - name: get current namespace resource
+    operator_sdk.util.k8s_status:
+      kind: Namespace
+      name: "{{ ansible_operator_meta.namespace }}"
+    register: move_current_namespace
+
+  - name: set fact namespace_metadata
+    set_fact:
+      namespace_metadata: "{{ move_current_namespace.result.metadata }}"
+
+  - name: Debug namespace metadata
+    debug:
+      msg: "{{ namespace_metadata }}"
+
+  - name: Fail if move is in an invalid namespace
+    fail:
+      msg: Cant find gamesession annotation in namespace
+    when: (namespace_metadata.annotations is undefined) or (namespace_metadata.annotations.gamesession is undefined)
+
+  - name: fetch GameSession resource
+    operator_sdk.util.k8s_status:
+      api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+      kind: GameSession
+      name: "{{ namespace_metadata.annotations.gamesession }}"
+      namespace: "{{ lobby_namespace }}"
+    register: gamesession
+
+  - name: debug gamesession state
+    debug:
+      msg: "{{ gamesession.status }}"
+
+  rescue:
+    - name: Set move state to invalid
+      operator_sdk.util.k8s_status:
+        api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+        kind: PlayerMove
+        name: "{{ ansible_operator_meta.name }}"
+        namespace: "{{ ansible_operator_meta.namespace }}"
+        status:
+          state: invalid
+
+  
+  
+
 # tasks file for PlayerMove

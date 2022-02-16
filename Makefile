@@ -64,6 +64,10 @@ help: ## Display this help.
 run: ansible-operator ## Run against the configured Kubernetes cluster in ~/.kube/config
 	ANSIBLE_ROLES_PATH="$(ANSIBLE_ROLES_PATH):$(shell pwd)/roles" $(ANSIBLE_OPERATOR) run
 
+.PHONY: run-debug
+run-debug: ansible-operator ## Run against the configured Kubernetes cluster in ~/.kube/config
+	ANSIBLE_ROLES_PATH="$(ANSIBLE_ROLES_PATH):$(shell pwd)/roles" $(ANSIBLE_OPERATOR) run 2>&1 | jq --unbuffered -r '"["+.level+"]" +": " +.msg'
+
 .PHONY: docker-build
 docker-build: ## Build docker image with the manager.
 	docker build -t ${IMG} .
