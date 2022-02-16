@@ -33,20 +33,38 @@ spec:
             description: Spec defines the desired state of KubeStoneCard
             type: object
             properties:
+              amount:
+                type: number
+                default: 0
+                minimum: 0
               image_url:
                 type: string
               cost:
                 type: number
               value:
                 type: number
-              name:
-                type: string
-              deployment_name:
+              display_name:
                 type: string
             x-kubernetes-preserve-unknown-fields: true
           status:
             description: Status defines the observed state of KubeStoneCard
             type: object
+            properties:
+              amount:
+                type: number
+              image_url:
+                type: string
+              cost:
+                type: number
+              value:
+                type: number
+              display_name:
+                type: string
+              deployment_name:
+                type: string
+              bootstrapping:
+                type: boolean
+                default: true
             x-kubernetes-preserve-unknown-fields: true
         type: object
     served: true

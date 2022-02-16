@@ -1,6 +1,13 @@
 apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
 kind: KubeStoneCard
 metadata:
-  name: kubestonecard-sample
+  name: kubestonecard-kube-knight
+  namespace: gamesession-sample-p1
 spec:
+  amount: 1
+  image_url: "https://example.com/image.jpg"
+  cost: 2
+  value: 4
+  display_name: "Kube Knight"
+
   # TODO(user): Add fields here

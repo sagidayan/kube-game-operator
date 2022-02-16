@@ -1,2 +1,34 @@
 ---
-# tasks file for KubeStoneCard
+- name: fetch current card
+  operator_sdk.util.k8s_status:
+    api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+    kind: KubeStoneCard
+    name: "{{ ansible_operator_meta.name }}"
+    namespace: "{{ ansible_operator_meta.namespace }}"
+  register: current
+
+- name: Bootstrap
+  when: current.result.status.bootstrapping
+  block:
+    - name: setup card properies
+      operator_sdk.util.k8s_status:
+        api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+        kind: KubeStoneCard
+        name: "{{ ansible_operator_meta.name }}"
+        namespace: "{{ ansible_operator_meta.namespace }}"
+        status:
+          bootstrapping: False
+          image_url: "{{ image_url }}"
+          cost: "{{ cost }}"
+          value: "{{ value }}"
+          display_name: "{{ display_name }}"
+          deployment_name: "{{ current.result.metadata.name }}-card-deployment"
+
+- name: Update amount
+  operator_sdk.util.k8s_status:
+    api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+    kind: KubeStoneCard
+    name: "{{ ansible_operator_meta.name }}"
+    namespace: "{{ ansible_operator_meta.namespace }}"
+    status:
+      amount: "{{ amount }}"
