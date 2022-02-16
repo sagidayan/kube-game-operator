@@ -1,7 +1,17 @@
 ---
-# tasks file for GameSession
-- name: Create player
+- name: Setup players
   include_tasks: setup_player.yml
   loop: "{{ player_names }}"
   loop_control:
     loop_var: player_name
+  when: not _gamesession_kube_game_shiftweek_poc_gamesession.status.isSetup
+
+- name: Flag GameSession/{{ ansible_operator_meta.name }} as set up
+  operator_sdk.util.k8s_status:
+    api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+    kind: GameSession
+    name: "{{ ansible_operator_meta.name }}"
+    namespace: "{{ ansible_operator_meta.namespace }}"
+    status:
+      isSetup: true
+  when: not _gamesession_kube_game_shiftweek_poc_gamesession.status.isSetup
