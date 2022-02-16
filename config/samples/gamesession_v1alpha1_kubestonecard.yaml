@@ -8,6 +8,7 @@ spec:
   image_url: "https://example.com/image.jpg"
   cost: 2
   value: 4
+  class: Attack
   display_name: "Kube Knight"
 
   # TODO(user): Add fields here

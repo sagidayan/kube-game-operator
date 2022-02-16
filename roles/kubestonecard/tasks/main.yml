@@ -21,6 +21,7 @@
           image_url: "{{ image_url }}"
           cost: "{{ cost }}"
           value: "{{ value }}"
+          class: "{{ class }}"
           display_name: "{{ display_name }}"
           deployment_name: "{{ current.result.metadata.name }}-card-deployment"
 
