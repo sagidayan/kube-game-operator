@@ -2,5 +2,6 @@ apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
 kind: GameSession
 metadata:
   name: gamesession-sample
+  namespace: kubestone-lobby
 spec:
   # TODO(user): Add fields here

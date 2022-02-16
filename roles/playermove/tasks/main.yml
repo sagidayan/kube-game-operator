@@ -42,10 +42,16 @@
       namespace: "{{ lobby_namespace }}"
     register: gamesession
 
-  - name: debug gamesession state
-    debug:
-      msg: "{{ gamesession.status }}"
 
+  - name: player that is making the move
+    ansible.builtin.set_fact:
+      current_player: "{{ ansible_operator_meta.namespace[-2:] }}"
+
+  - name: "Fail if this is not {{ current_player }}'s move"
+    fail:
+      msg: "Not Players turn to move"
+    when: current_player != gamesession.result.status.activePlayer
+        
   rescue:
     - name: Set move state to invalid
       operator_sdk.util.k8s_status:

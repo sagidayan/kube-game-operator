@@ -2,7 +2,7 @@ apiVersion: gamesession.kube-game.shiftweek.poc/v1alpha1
 kind: PlayerMove
 metadata:
   name: playermove-sample
-  namespace: gamesession-sample-player-one
+  namespace: gamesession-sample-p1
 spec:
   play:
     - CardDragon

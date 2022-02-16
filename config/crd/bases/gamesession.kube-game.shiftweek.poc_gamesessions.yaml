@@ -78,6 +78,7 @@ spec:
               activePlayer:
                 description: Player active turn
                 type: string
+                default: p1
                 enum:
                   - p1
                   - p2
