@@ -81,6 +81,13 @@ spec:
                 enum:
                   - p1
                   - p2
+              isSetup:
+                type: boolean
+                default: false
+              p1KubeConfig:
+                type: string
+              p2KubeConfig:
+                type: string
             x-kubernetes-preserve-unknown-fields: true
         type: object
     served: true
