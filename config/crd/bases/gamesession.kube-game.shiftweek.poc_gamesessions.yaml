@@ -36,6 +36,51 @@ spec:
           status:
             description: Status defines the observed state of GameSession
             type: object
+            properties:
+              p1HP:
+                description: Player 1 health points
+                type: integer
+                minimum: 0
+                default: 20
+              p2HP:
+                description: Player 2 health points
+                type: integer
+                minimum: 0
+                default: 20
+              p1AP:
+                description: Player 1 armor points
+                type: integer
+                minimum: 0
+                default: 0
+              p2AP:
+                description: Player 2 armor points
+                type: integer
+                minimum: 0
+                default: 0
+              p1MP:
+                description: Player 1 mana points
+                type: integer
+                minimum: 0
+                default: 5
+              p2MP:
+                description: Player 2 mana points
+                type: integer
+                minimum: 0
+                default: 5
+              p1HandSize:
+                description: Player 1 hand size 
+                type: integer
+                minimum: 0
+              p2HandSize:
+                description: Player 2 hand size 
+                type: integer
+                minimum: 0
+              activePlayer:
+                description: Player active turn
+                type: string
+                enum:
+                  - p1
+                  - p2
             x-kubernetes-preserve-unknown-fields: true
         type: object
     served: true
