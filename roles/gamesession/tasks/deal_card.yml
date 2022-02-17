@@ -1,0 +1,28 @@
+- name: fetch GameSession resource
+  kubernetes.core.k8s_info:
+    api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+    kind: KubeStoneCard
+    namespace: '{{ player_namespace }}'
+  register: player_deck
+
+- name: Select a card
+  set_fact: 
+    card: '{{ player_deck.resources | shuffle | first }}'
+
+- name: Calculate new amount
+  set_fact:
+    new_amount: '{{ card.spec.amount | int + 1 }}'
+
+- debug:
+    msg: 'Update {{ card.metadata.name }} with amount {{ new_amount }} for {{ player_namespace }}'
+
+- name: Set amount
+  kubernetes.core.k8s:
+    state: patched
+    api_version: gamesession.kube-game.shiftweek.poc/v1alpha1
+    kind: KubeStoneCard
+    name: '{{ card.metadata.name }}'
+    namespace: '{{ player_namespace }}'
+    definition:
+      spec:
+        amount: '{{ new_amount | int }}'

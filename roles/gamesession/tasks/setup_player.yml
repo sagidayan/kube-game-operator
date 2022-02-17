@@ -128,3 +128,9 @@
   kubernetes.core.k8s:
     src: deck.yml
     namespace: '{{ player_full_name }}'
+
+- name: Deal cards to the player
+  include_tasks: deal_card.yml
+  with_sequence: count=5
+  vars:
+    player_namespace: "{{ player_full_name }}"
