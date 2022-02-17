@@ -41,3 +41,8 @@
         kind: ClusterRole
         name: playermove-editor-role
         apiGroup: rbac.authorization.k8s.io
+
+# - name: Deal a card to the inactive player
+#   include_tasks: deal_card.yml
+#   vars:
+#     player_namespace: '{{ ansible_operator_meta.name }}-{{ inactive_player }}'

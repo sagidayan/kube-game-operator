@@ -34,13 +34,13 @@ spec:
             type: object
             properties:
               amount:
-                type: number
+                type: integer
                 default: 0
                 minimum: 0
               image_url:
                 type: string
               cost:
-                type: number
+                type: integer
               class:
                 type: string
                 enum:
@@ -48,7 +48,7 @@ spec:
                   - Armor
                   - Heal
               value:
-                type: number
+                type: integer
               display_name:
                 type: string
             x-kubernetes-preserve-unknown-fields: true
@@ -57,11 +57,11 @@ spec:
             type: object
             properties:
               amount:
-                type: number
+                type: integer
               image_url:
                 type: string
               cost:
-                type: number
+                type: integer
               class:
                 type: string
                 enum:
@@ -69,7 +69,7 @@ spec:
                   - Armor
                   - Heal
               value:
-                type: number
+                type: integer
               display_name:
                 type: string
               deployment_name:
